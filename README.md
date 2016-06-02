@@ -33,6 +33,16 @@ android 56 lesson
         android:layout_below="@id/togglebutton01"
         android:textOn="开"
         android:textOff="关"/>
+    //--滑动开关组件
+    <Switch
+        android:id="@+id/switch01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/togglebutton02"
+        android:textOn="开"
+        android:textOff="关"
+        //--switch响应方法
+        android:onClick="onSwitchClicked"/>
   </RelativeLayout>
   
   在app->java->包名->MainActivity.java中设置响应方法：
@@ -42,18 +52,20 @@ android 56 lesson
   import android.os.Bundle;
   import android.view.View;
   import android.widget.CompoundButton;
+  import android.widget.Switch;
   import android.widget.Toast;
   import android.widget.ToggleButton;
   
   public class MainActivity extends AppCompatActivity {
   
       private ToggleButton tb1,tb2;
+      private Switch sw1;
       @Override
       protected void onCreate(Bundle savedInstanceState) {
           super.onCreate(savedInstanceState);
           setContentView(R.layout.activity_main);
           tb1 = (ToggleButton)findViewById(R.id.togglebutton01);
-          
+  
           //--ToggleButton响应事件方式二
           tb2 = (ToggleButton) findViewById(R.id.togglebutton02);
           tb2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -68,9 +80,11 @@ android 56 lesson
                           break;
                       default:
                           break;
-                  } 
+                  }
               }
           });
+  
+          sw1 = (Switch)findViewById(R.id.switch01);
       }
   
       //--ToggleButton事件响应方法一：在配置文件中设置响应函数
@@ -82,6 +96,18 @@ android 56 lesson
               Toast.makeText(this,"方式一灯已经打开",Toast.LENGTH_LONG).show();
           } else {
               Toast.makeText(this,"方式一灯已经关闭",Toast.LENGTH_LONG).show();
+          }
+      }
+  
+      //--Switch事件响应：在配置文件中设置响应函数
+      public void onSwitchClicked(View view) {
+          // Is the toggle on?
+          boolean on = ((Switch) view).isChecked();
+  
+          if (on) {
+              Toast.makeText(this,"滑动开关灯已经打开",Toast.LENGTH_LONG).show();
+          } else {
+              Toast.makeText(this,"滑动开关灯已经关闭",Toast.LENGTH_LONG).show();
           }
       }
   }

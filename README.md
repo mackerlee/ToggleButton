@@ -24,6 +24,15 @@ android 56 lesson
           android:textOff="关"
           //--开关的响应事件
           android:onClick="onToggleClicked"/>
+      
+      //--用方式二触发响应
+      <ToggleButton
+        android:id="@+id/togglebutton02"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/togglebutton01"
+        android:textOn="开"
+        android:textOff="关"/>
   </RelativeLayout>
   
   在app->java->包名->MainActivity.java中设置响应方法：
@@ -32,18 +41,36 @@ android 56 lesson
   import android.support.v7.app.AppCompatActivity;
   import android.os.Bundle;
   import android.view.View;
+  import android.widget.CompoundButton;
   import android.widget.Toast;
   import android.widget.ToggleButton;
   
   public class MainActivity extends AppCompatActivity {
   
-      private ToggleButton tb;
+      private ToggleButton tb1,tb2;
       @Override
       protected void onCreate(Bundle savedInstanceState) {
           super.onCreate(savedInstanceState);
           setContentView(R.layout.activity_main);
-          tb = (ToggleButton)findViewById(R.id.togglebutton01);
-  
+          tb1 = (ToggleButton)findViewById(R.id.togglebutton01);
+          
+          //--ToggleButton响应事件方式二
+          tb2 = (ToggleButton) findViewById(R.id.togglebutton02);
+          tb2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+              public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                  switch (buttonView.getId()){
+                      case R.id.togglebutton02:
+                          if (isChecked) {
+                              Toast.makeText(MainActivity.this,"方式二灯已经打开",Toast.LENGTH_LONG).show();
+                          } else {
+                              Toast.makeText(MainActivity.this,"方式二灯已经关闭",Toast.LENGTH_LONG).show();
+                          }
+                          break;
+                      default:
+                          break;
+                  } 
+              }
+          });
       }
   
       //--ToggleButton事件响应方法一：在配置文件中设置响应函数
@@ -52,10 +79,9 @@ android 56 lesson
           boolean on = ((ToggleButton) view).isChecked();
   
           if (on) {
-              Toast.makeText(this,"灯已经打开",Toast.LENGTH_LONG).show();
+              Toast.makeText(this,"方式一灯已经打开",Toast.LENGTH_LONG).show();
           } else {
-              Toast.makeText(this,"灯已经关闭",Toast.LENGTH_LONG).show();
+              Toast.makeText(this,"方式一灯已经关闭",Toast.LENGTH_LONG).show();
           }
       }
   }
-
